@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}<title>{{ object.title }}</title>{% endblock %}
+
+{% block Catalog %}
+<h1>{{ post.title}}</h1>
+    <small>
+        By: {{ post.author }}<br/>
+        Date: {{ post.post_time }}
+    </small><br/>
+    <hr>
+    {{ post.script }}<br/>
+    <pre>
+
+    </pre>
+    {% for item in post.images.all %}
+        <img src="{{ item.images.url }}" class="img-fluid col-md-3 p-2">
+    {% endfor %}
+    <br/>
+    <pre>
+
+    </pre>
+    <a href="{% url 'category' %}"><button type="button" name="btn" class="btn btn-secondary">Go Back</button></a>
+    <pre>
+
+
+    </pre>
+{% endblock %}

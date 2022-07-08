@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}<title>LOGIN</title>{% endblock %}
+{% block Login %}
+    <h1>Log In</h1>
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+        <form method="post">
+            {% csrf_token %}
+          <div class="form-group">
+            <label for="exampleInputEmail1">Username</label>
+            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="username">
+            <small id="emailHelp" class="form-text text-muted">We'll never share your account with anyone else.</small>
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword1">Password</label>
+            <input type="password" class="form-control" id="exampleInputPassword1" name="password">
+          </div>
+          <button type="submit" class="btn btn-primary">Sign In</button>
+            <a type="submit" class="btn btn-primary" href="{% url 'register' %}"> Sign Up </a>
+        </form>
+{% endblock %}
+
+
+
+
+

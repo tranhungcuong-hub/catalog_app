@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% block title %}<title>Catalog</title>{% endblock %}
+
+{% block Catalog %}
+    <h1>
+        Posts
+        <a class="btn btn-primary float-right" href="{% url 'add_post' %}" role="button">Add</a>
+    </h1>
+            <!-- Category -->
+    <hr>
+    <div class="row">
+        <div class="col-3 m-1">
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Categories
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    {% for item in cat_menu %}
+                        <a class="dropdown-item" href="{% url 'cate' item.id %}">{{ item }}</a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% for item in object_list %}
+            <div class="col-3 m-4">
+                <div class="card" style="width: 18rem;">
+                    {% if item.thumnail %}
+                    <img src="{{ item.thumnail.url }}" class="card-img-top" alt="...">
+                    {% endif  %}
+                    <hr>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ item.title}}</h5>
+                        <p class="card-text">{{ item.script|slice:"50" }}</p><br/>
+                        {% for cat in item.category.all %}
+                            <small>Category: {{ cat }}</small><br/>
+                        {% endfor %}
+                        <small>DATE: {{ item.post_time }}</small><br/>
+                        <br/>
+                        <a href="{% url 'detail' item.pk %}" class="btn btn-primary">Detail</a>
+                        {% if user.is_authenticated %}
+                            {% if user.id == item.author.id %}
+                                <a href="{% url 'update_post' item.pk %}" class="btn btn-primary">Edit</a>
+                                <a href="{% url 'delete_post' item.pk %}" class="btn btn-primary">Delete</a>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+        {% if is_paginated %}
+
+          {% if page_obj.has_previous %}
+            <a class="btn btn-outline-info mb-4" href="?page=1">First</a>
+            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+          {% endif %}
+
+          {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+              <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
+            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+              <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
+            {% endif %}
+          {% endfor %}
+
+          {% if page_obj.has_next %}
+            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
+            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+          {% endif %}
+
+        {% endif %}
+{% endblock %}

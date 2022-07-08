@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{#{% block title %}Register{% endblock %}#}
+
+{% block Register %}
+    <h1>Register</h1>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="exampleInputEmail1">Username</label>
+            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="username">
+            <small id="emailHelp" class="form-text text-muted">We'll never share your account with anyone else.</small>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">Password</label>
+            <input type="password" class="form-control" id="exampleInputPassword1" name="password1">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">Password</label>
+            <input type="password" class="form-control" id="exampleInputPassword1" name="password2">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">First name</label>
+            <input type="text" class="form-control" id="exampleInputPassword1" name="first_name">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">Last Name</label>
+            <input type="text" class="form-control" id="exampleInputPassword1" name="last_name">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">Email</label>
+            <input type="text" class="form-control" id="exampleInputPassword1" name="email">
+        </div>
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+        <button type="submit" class="btn btn-primary">Sign Up</button>
+    </form>
+{% endblock %}
+
+
+
+
+
+

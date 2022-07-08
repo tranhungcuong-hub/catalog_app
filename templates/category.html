@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block title %}<title>Catalog</title>{% endblock %}
+{% load mptt_tags %}
+
+{% block Catalog %}
+    <h1>
+        Posts
+        <a class="btn btn-primary float-right" href="{% url 'add_post' %}" role="button">Add</a>
+    </h1>
+            <!-- Category -->
+    <hr>
+    <div class="row">
+        <div class="col-2 m-2">
+            <div class="list-group">
+                {% recursetree categories %}
+                    <a href="{% url 'cate' node.id %}" class="list-group-item list-group-item-action" aria-current="true">{{ node.name }}</a>
+{#                    <br/>#}
+                    {% if not node.is_leaf_node %}
+                        <div class="list-group ml-4">
+                            {{ children }}
+                        </div>
+                    {% endif %}
+{#                    <br/>#}
+                {% endrecursetree %}
+            </div>
+        </div>
+        {% for item in cate_post %}
+            <div class="col-3 m-4">
+
+                <div class="card" style="width: 18rem;">
+                    {% if item.thumnail %}
+                        <img src="{{ item.thumnail.url }}" class="card-img-top" alt="...">
+                    {% else %}
+                        <img src="" class="card-img-top" alt="...">
+                    {% endif %}
+                    <hr>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ item.title }}</h5>
+                        <p class="card-text">{{ item.script|slice:"50" }}</p><br/>
+                        <small>
+                            Category:
+                            {% for cat in item.category.all %}
+                                 {{ cat }} ,
+                            {% endfor %}
+                        </small><br/>
+                        <small>DATE: {{ item.post_time }}</small><br/>
+                        <a href="{% url 'detail' item.pk %}" class="btn btn-primary">Detail</a>
+                        <a href="{% url 'update_post' item.pk %}" class="btn btn-primary">Edit</a>
+                        <a href="{% url 'delete_post' item.pk %}" class="btn btn-primary">Delete</a>
+                    </div>
+                </div>
+
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

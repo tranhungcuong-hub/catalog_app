@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}<title>Post</title>{% endblock %}
+
+{% block Catalog %}
+<h1>Add Book</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <br />
+        <button class="btn btn-secondary">Add Post</button>
+    </form>
+    <script>
+        var name = "{{ user.id }}";
+        document.getElementById("elder").value = name;
+    </script>
+{% endblock %}
