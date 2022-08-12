@@ -23,7 +23,6 @@ class PostUserPermission(BasePermission):
 class PostList(generics.ListAPIView):
     # permission_classes = [IsAuthenticated]
     serializer_class = PostSerializers
-    print(settings.BASE_DIR)
 
     def get_queryset(self):
         return Post.objects.select_related('author').prefetch_related('category', 'images', 'comments')

@@ -1,5 +1,5 @@
 from django.urls import path, include
-from rest_framework import routers
+from django.views.generic import RedirectView
 
 from catalog.API import views
 
@@ -22,6 +22,8 @@ urlpatterns = [
     # REPORT API
     path('category/report/', views.CategoryReport.as_view(), name='category_report'),
     path('post/report/', views.PostReport.as_view(), name='post_report'),
+
+    path('favicon.ico',RedirectView.as_view(url='/static/images/favicon.ico')),
 ]
 # ccollection & item
 # collection use plural nouns
