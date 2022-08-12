@@ -20,26 +20,22 @@ class PostUserPermission(BasePermission):
 
 
 class PostList(generics.ListAPIView):
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     serializer_class = PostSerializers
 
     def get_queryset(self):
-        print(Post.objects.all())
-        return Post.objects.all()
+        return Post.objects.select_related('author').prefetch_related('category', 'images', 'comments')
 
 
 class PostCreate(generics.CreateAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = CreatePostSerializers
-    # parser_classes = (FormParser, MultiPartParser)
-
-    # parser_classes = [MultiPartParser, FormParser]
 
     def perform_create(self, serializer):
         return serializer.save(author=self.request.user)
 
-    def get_queryset(self):
-        return Post.objects.all()
+    # def get_queryset(self):
+    #     return Post.objects.all()
 
 
 class PostRetriveDelete(generics.RetrieveUpdateDestroyAPIView, PostUserPermission):
@@ -47,8 +43,8 @@ class PostRetriveDelete(generics.RetrieveUpdateDestroyAPIView, PostUserPermissio
     serializer_class = PostSerializers
     lookup_field = 'id'
 
-    def get_queryset(self):
-        return Post.objects.all()
+    # def get_queryset(self):
+    #     return Post.objects.all()
 
 
 class CategoryList(generics.ListAPIView):
@@ -75,8 +71,8 @@ class CategoryDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = CategorySerializers
     lookup_field = 'id'
 
-    def get_queryset(self):
-        return Category.objects.all()
+    # def get_queryset(self):
+    #     return Category.objects.all()
 
 
 class CommentsCreate(generics.CreateAPIView):
@@ -86,8 +82,8 @@ class CommentsCreate(generics.CreateAPIView):
     def perform_create(self, serializer):
         return serializer.save(author=self.request.user)
 
-    def get_queryset(self):
-        return Comments.objects.all()
+    # def get_queryset(self):
+    #     return Comments.objects.all()
 
 
 class CommentsDetail(generics.RetrieveUpdateDestroyAPIView, PostUserPermission):

@@ -47,14 +47,14 @@ class CommentsCreateSerializers(serializers.ModelSerializer):
 
 class PostSerializers(serializers.ModelSerializer):
     category = CategorySerializers(many=True, required=False, read_only=True)
+    # category = Category.objects.prefetch_related('post').only('id', 'name')
     images = ImagesSerializers(many=True, required=False, read_only=True)
-    thumnail = serializers.ImageField(max_length=None, allow_empty_file=True, allow_null=True, use_url=True,
-                                      required=False)
     author = serializers.SerializerMethodField()
-    comments = CommentsSerializers(many=True, read_only=True)
+    comments = CommentsSerializers(read_only=True, many=True)
+    # comments = Comments.objects.select_related('post')
 
     def get_author(self, obj):
-        return obj.author.first_name + ' ' + obj.author.last_name
+        return obj.author.username
 
     class Meta:
         model = Post
@@ -74,8 +74,6 @@ class CreatePostSerializers(serializers.ModelSerializer):
         fields = ['id', 'title', 'script', 'post_time', 'thumnail', 'category', 'images']
 
     def create(self, validated_data):
-        print(validated_data)
-
         images_data = validated_data.pop('images')
         categories_data = validated_data.pop('category')
         post = Post(**validated_data)
@@ -88,8 +86,6 @@ class CreatePostSerializers(serializers.ModelSerializer):
         for cats in categories_data:
             post.category.add(cats)
 
-        print(PostSerializers(post).data)
-
         return PostSerializers(post).data
 
 
@@ -97,7 +93,7 @@ class Post_Serializers(serializers.ModelSerializer):
     author = serializers.SerializerMethodField()
 
     def get_author(self, obj):
-        return obj.author.first_name + ' ' + obj.author.last_name
+        return obj.author.username
 
     class Meta:
         model = Post

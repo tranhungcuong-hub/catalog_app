@@ -6,20 +6,24 @@ from catalog.API import views
 
 urlpatterns = [
     # CATEGORIES
-    path('category_list/', views.CategoryList.as_view(), name='cate_list_view'),
-    path('category_create/', views.CategoryCreate.as_view(), name='cate_create_view'),
-    path('category_detail/<int:id>', views.CategoryDetail.as_view(), name='cate_detail_view'),
+    path('categories/', views.CategoryList.as_view(), name='cate_list_view'),
+    path('category/POST/', views.CategoryCreate.as_view(), name='cate_create_view'),
+    path('category/RETRIEVE/<int:id>', views.CategoryDetail.as_view(), name='cate_detail_view'),
 
     # PRODUCTS
-    path('post_list/', views.PostList.as_view(), name='api_post_view'),
-    path('post_create/', views.PostCreate.as_view(), name='api_post_view'),
-    path('post_detail/<int:id>', views.PostRetriveDelete.as_view(), name='api_post_view'),
+    path('post/GET/', views.PostList.as_view(), name='api_post_view'),
+    path('post/CREATE', views.PostCreate.as_view(), name='api_post_view'),
+    path('post/RETRIEVE/<int:id>', views.PostRetriveDelete.as_view(), name='api_post_view'),
 
     # COMMENTS
-    path('cmt_create/', views.CommentsCreate.as_view(), name='comments_create_view'),
-    path('cmt_detail/<int:id>', views.CommentsDetail.as_view(), name='comments_detail_view'),
+    path('cmt/CREATE/', views.CommentsCreate.as_view(), name='comments_create_view'),
+    path('cmt/RETRIEVE/<int:id>', views.CommentsDetail.as_view(), name='comments_detail_view'),
 
     # REPORT API
-    path('category_report/', views.CategoryReport.as_view(), name='category_report'),
-    path('post_report/', views.PostReport.as_view(), name='post_report'),
+    path('category/report/', views.CategoryReport.as_view(), name='category_report'),
+    path('post/report/', views.PostReport.as_view(), name='post_report'),
 ]
+# ccollection & item
+# collection use plural nouns
+# item use id
+# do not use verbs

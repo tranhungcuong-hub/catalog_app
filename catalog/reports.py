@@ -42,7 +42,6 @@ def Post_report():
 
     # cmt = Comments.objects.select_related('post')
 
-
     for item in Post.objects.all():
         try:
             cmt = Comments.objects.filter(post_id=item.id).count()

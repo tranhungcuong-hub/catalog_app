@@ -9,7 +9,6 @@ from catalog.forms import PostForm, UpdateForm, CateForm
 
 # Create views here.
 class HomeView(ListView):
-    user = User
     model = Post
     images = ProductImages
     template_name = 'catalog.html'
@@ -17,13 +16,11 @@ class HomeView(ListView):
     paginate_by = 3
 
     def get_context_data(self, *args, **kwargs):
-        current_user = self.request.user
-
         cat_menu = Category.objects.all()
 
         context = super(HomeView, self).get_context_data(*args, **kwargs)
         context["cat_menu"] = cat_menu
-        context["user"] = current_user
+        # context["user"] = current_user
         return context
 
 
@@ -68,8 +65,6 @@ class AddCategoryView(CreateView):
     model = Category
     form_class = CateForm
     template_name = 'add_cate.html'
-    # fields = ['name']
-    # success_url = reverse_lazy('cate_view')
 
 
 class CateHomeView(ListView):

@@ -11,10 +11,6 @@ class CateForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-
-        # self.fields['parent'].widget.attrs.update(
-        #     {'class': 'd-none'})
-        # self.fields['parent'].label = ''
         self.fields['parent'].required = False
 
     class Meta:
@@ -28,7 +24,6 @@ class PostForm(forms.ModelForm):
         'class': 'form-control',
         'multiple': True
     }))
-    print(categories)
     category = forms.MultipleChoiceField(required=False, widget=forms.CheckboxSelectMultiple,
                                          choices=categories)
 
