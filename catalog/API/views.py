@@ -7,6 +7,7 @@ from rest_framework.response import Response
 from catalog.API.serializers import CategorySerializers, PostSerializers, CreatePostSerializers, CommentsCreateSerializers, CategoryReportSerializers, PostReportSerializers
 from catalog.models import Category, Post, Comments
 from catalog.reports import Category_report, Post_report
+from catalog_app1 import settings
 
 
 class PostUserPermission(BasePermission):
@@ -22,6 +23,7 @@ class PostUserPermission(BasePermission):
 class PostList(generics.ListAPIView):
     # permission_classes = [IsAuthenticated]
     serializer_class = PostSerializers
+    print(settings.BASE_DIR)
 
     def get_queryset(self):
         return Post.objects.select_related('author').prefetch_related('category', 'images', 'comments')
